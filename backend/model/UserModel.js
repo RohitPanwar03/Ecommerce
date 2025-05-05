@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     require: [true, "Please Enter your Name"],
     minLength: [8, "Password should have more than 8 characters"],
+    select: false,
   },
   avatar: {
     public_id: {
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    default: "User",
+    default: "user",
   },
   createdAt: {
     type: Date,

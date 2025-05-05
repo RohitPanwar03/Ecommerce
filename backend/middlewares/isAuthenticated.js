@@ -14,3 +14,14 @@ export const isAuthenticated = catchAsyncError(async (req, res, next) => {
   req.user = await User.findById(decodedToken.id);
   next();
 });
+
+export const authorizedRole = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new errorHandler(401, "Your are not Authorized to access this resource")
+      );
+    }
+    next();
+  };
+};
