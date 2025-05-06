@@ -112,3 +112,54 @@ export const updateUserRole = catchAsyncError(async (req, res, next) => {
     message: `User role updated !`,
   });
 });
+
+// Update user password
+export const updateUserPassword = catchAsyncError(async (req, res, next) => {
+  const { oldPassword, newPassword, confirmPassword } = req.body;
+  const user = await User.findById(req.user._id).select("+password");
+
+  if (!user) {
+    return next(new errorHandler(401, "Please Login to Access this Resource"));
+  }
+
+  const isMatched = await user.comparePassword(oldPassword);
+
+  if (!isMatched) {
+    return next(new errorHandler(400, "Please enter the Correct Password"));
+  }
+
+  if (newPassword !== confirmPassword) {
+    return next(new errorHandler(400, "Confirm Password Doesn't match"));
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  generateToken(user, 200, res, "Password Updated Successfully !");
+});
+
+// Get all Users---- Admin
+export const getAllUsers = catchAsyncError(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
+// Get Single Users---- Admin
+export const getSingleUser = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new errorHandler(`User does not exist with Id: ${req.params.id}`)
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});

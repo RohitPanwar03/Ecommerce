@@ -7,6 +7,9 @@ import {
   deleteUser,
   updateUserRole,
   logoutUser,
+  updateUserPassword,
+  getAllUsers,
+  getSingleUser,
 } from "../controllers/userControllers.js";
 import {
   authorizedRole,
@@ -30,6 +33,19 @@ router.put(
   isAuthenticated,
   authorizedRole("admin"),
   updateUserRole
+);
+router.put("/update-user-password", isAuthenticated, updateUserPassword);
+router.get(
+  "/getAll-users",
+  isAuthenticated,
+  authorizedRole("admin"),
+  getAllUsers
+);
+router.get(
+  "/getSingle-user/:id",
+  isAuthenticated,
+  authorizedRole("admin"),
+  getSingleUser
 );
 
 router.get("/logout", isAuthenticated, logoutUser);
