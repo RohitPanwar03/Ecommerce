@@ -20,13 +20,20 @@ class apifeatures {
 
   filter() {
     const queryCopy = { ...this.queryStr };
-    const removeFields = ["keyword", "page", "limit", "sort", "fields"];
-    removeFields.forEach((field) => delete queryCopy[field]);
+    //   Removing some fields for category
+    const removeFields = ["keyword", "page", "limit"];
+
+    console.log(queryCopy);
+    removeFields.forEach((key) => delete queryCopy[key]);
+
+    // Filter For Price and Rating
 
     let queryStr = JSON.stringify(queryCopy);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
-    const parsedStr = JSON.parse(queryStr);
-    this.query = this.query.find(parsedStr);
+
+    console.log(JSON.parse(queryStr));
+    this.query = this.query.find(JSON.parse(queryStr));
+
     return this;
   }
 

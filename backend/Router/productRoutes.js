@@ -24,13 +24,13 @@ router.post(
   createProduct
 );
 router.get(
-  "/getAll-products",
+  "/admin/products",
   isAuthenticated,
   authorizedRole("admin"),
   getAllProducts
 );
 router.get("/getSingle-product/:id", getSingleProduct);
-router.get("/All-products", AllProductsWithFilter);
+router.get("/products", AllProductsWithFilter);
 router.put(
   "/update/:id",
   isAuthenticated,
