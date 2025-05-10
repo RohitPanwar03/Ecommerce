@@ -44,7 +44,6 @@ router.delete(
   deleteProduct
 );
 router.put("/review", isAuthenticated, productReview);
-router.put("/review", isAuthenticated, productReview);
 router.get("/reviews", getProductReviews);
 router.delete("/reviews", isAuthenticated, deleteReview);
 

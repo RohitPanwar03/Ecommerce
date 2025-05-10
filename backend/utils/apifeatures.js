@@ -20,19 +20,32 @@ class apifeatures {
 
   filter() {
     const queryCopy = { ...this.queryStr };
-    //   Removing some fields for category
+
     const removeFields = ["keyword", "page", "limit"];
-
-    console.log(queryCopy);
     removeFields.forEach((key) => delete queryCopy[key]);
+    const mongoQuery = {};
 
-    // Filter For Price and Rating
+    for (let key in queryCopy) {
+      if (key === "category") {
+        mongoQuery.category = {
+          $regex: queryCopy[key],
+          $options: "i", // case-insensitive
+        };
+      }
+      if (key.includes("[")) {
+        // e.g. price[gte]
+        const [field, operator] = key.split("[");
+        const op = operator.replace("]", ""); // gte
+        if (!mongoQuery[field]) mongoQuery[field] = {};
+        mongoQuery[field][`$${op}`] = Number(queryCopy[key]);
+      } else {
+        // Normal fields like category
+        mongoQuery[key] = queryCopy[key];
+      }
+    }
 
-    let queryStr = JSON.stringify(queryCopy);
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
-
-    console.log(JSON.parse(queryStr));
-    this.query = this.query.find(JSON.parse(queryStr));
+    console.log(mongoQuery);
+    this.query = this.query.find(mongoQuery);
 
     return this;
   }

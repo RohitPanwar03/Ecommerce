@@ -1,5 +1,5 @@
 .banner {
-  background-image: linear-gradient(to right, #635dc0, #3027ae);
+  background-image: linear-gradient(to right, #d79e5d, #e77722);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -88,6 +88,7 @@
   margin: 0.5vmax;
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   align-items: center;
 }
 

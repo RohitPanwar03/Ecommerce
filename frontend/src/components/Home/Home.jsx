@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import "./Home.css";
 import ProductCard from "./ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../../reducers/productReducer";
+import Loader from "../layout/Loader/Loader";
+import toast from "react-hot-toast";
 
 const Home = () => {
-  const product = {
-    name: "Blue Shirt",
-    images: [{ url: "https://i.ibb.co/DRST11n/1.webo" }],
-    price: "$200",
-    _id: "abhishek",
-  };
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    dispatch(getProducts());
+  }, [dispatch, error]);
+
   return (
     <>
       <div className="banner">
@@ -23,7 +31,14 @@ const Home = () => {
       </div>
       <h2 className="homeHeading">Featured Product</h2>
       <div className="container" id="container">
-        <ProductCard product={product} />
+        {loading ? (
+          <Loader />
+        ) : (
+          products &&
+          products.map((product) => (
+            <ProductCard product={product} key={product._id} />
+          ))
+        )}
       </div>
     </>
   );
