@@ -1,8 +1,6 @@
 import { catchAsyncError } from "../utils/catchAsyncErrors.js";
 import { Product } from "../model/productModel.js";
 import { errorHandler } from "../utils/errorHandler.js";
-import apifeatures from "../utils/apifeatures.js";
-import { JSONCookie } from "cookie-parser";
 
 // Create Product
 export const createProduct = catchAsyncError(async (req, res, next) => {
@@ -16,27 +14,57 @@ export const createProduct = catchAsyncError(async (req, res, next) => {
 });
 
 // GetAll Products with Filter
+
 export const AllProductsWithFilter = catchAsyncError(async (req, res, next) => {
   const resultPerPage = 8;
-  const productCount = await Product.countDocuments();
+  const page = Number(req.query.page) || 1;
 
-  const apiFeature = new apifeatures(Product.find(), req.query)
-    .search()
-    .filter();
+  const queryObject = {};
 
-  const filteredQuery = apiFeature.query.clone(); // Save filtered (but unpaginated) query
+  // Search by keyword in name (case-insensitive)
+  if (req.query.keyword) {
+    queryObject.name = { $regex: req.query.keyword, $options: "i" };
+  }
 
-  apiFeature.pagination(resultPerPage);
+  // Filter by category
+  if (req.query.category) {
+    queryObject.category = req.query.category;
+  }
 
-  const products = await apiFeature.query;
-  const filteredProductCount = await filteredQuery.countDocuments();
+  // Filter by price range using price[gte] and price[lte]
+  if (req.query.price) {
+    queryObject.price = {};
+    if (req.query.price.gte) {
+      queryObject.price.$gte = Number(req.query.price.gte);
+    }
+    if (req.query.price.lte) {
+      queryObject.price.$lte = Number(req.query.price.lte);
+    }
+  }
+
+  // Filter by minimum rating
+  if (req.query.ratings) {
+    queryObject.ratings = { $gte: Number(req.query.ratings) };
+  }
+
+  // Total product count (before filtering)
+  const totalProducts = await Product.countDocuments();
+
+  // Get filtered products without pagination
+  const filteredProducts = await Product.find(queryObject);
+  const filteredProductCount = filteredProducts.length;
+
+  // Apply pagination to filtered results
+  const products = await Product.find(queryObject)
+    .limit(resultPerPage)
+    .skip(resultPerPage * (page - 1));
 
   res.status(200).json({
     success: true,
     products,
-    productCount,
-    resultPerPage,
+    totalProducts,
     filteredProductCount,
+    resultPerPage,
   });
 });
 

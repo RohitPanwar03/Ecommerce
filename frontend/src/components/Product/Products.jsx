@@ -7,9 +7,8 @@ import Pagination from "react-js-pagination";
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
 import toast from "react-hot-toast";
-import { getProducts } from "../../reducers/productReducer";
-import { useParams, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import { clearErrors, getProducts } from "../../reducers/productReducer";
 
 const categories = [
   "Laptop",
@@ -21,11 +20,9 @@ const categories = [
   "SmartPhones",
 ];
 
-const Products = ({ match }) => {
+const Products = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const queryParams = useSearchParams();
-
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([0, 25000]);
   const [category, setCategory] = useState("");
@@ -52,23 +49,16 @@ const Products = ({ match }) => {
   };
   let count = filteredProductsCount;
 
-  const productData = async () => {
-    const res = await axios.get(
-      `/api/v1/products/products?keyword=${keyword ? keyword : ""}&page=${
-        currentPage ? currentPage : 1
-      }&category=${category ? category : ""}`
-    );
-    console.log(res);
-  };
+  useEffect(() => {
+    dispatch(getProducts({ keyword, currentPage, price, category, ratings }));
+  }, [dispatch, keyword, currentPage, price, category, ratings]); // Run only once
 
   useEffect(() => {
     if (error) {
       toast.error(error);
+      dispatch(clearErrors());
     }
-    productData();
-
-    dispatch(getProducts(keyword, currentPage, price, category, ratings));
-  }, [dispatch, keyword, currentPage, price, category, ratings, error]);
+  }, [dispatch, error]); // Handle error separately
 
   return (
     <Fragment>

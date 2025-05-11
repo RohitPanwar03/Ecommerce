@@ -3,7 +3,7 @@ import productReducer from "../reducers/productReducer";
 import productDetailReducer from "../reducers/productDetailReducer";
 import productReviewReducer from "../reducers/productReviewReducer";
 import addNewReviewReducer from "../reducers/addNewReviewReducer";
-import filterProductReducer from "../reducers/filterProductReducer";
+import UserReducer from "../reducers/UserReducer";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +11,6 @@ export const store = configureStore({
     productDetails: productDetailReducer,
     productReviews: productReviewReducer,
     newReview: addNewReviewReducer,
-    filterProduct: filterProductReducer,
+    User: UserReducer,
   },
 });

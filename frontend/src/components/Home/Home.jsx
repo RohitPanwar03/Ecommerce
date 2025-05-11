@@ -3,7 +3,7 @@ import { CgMouse } from "react-icons/cg";
 import "./Home.css";
 import ProductCard from "./ProductCard";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../../reducers/productReducer";
+import { clearErrors, getProducts } from "../../reducers/productReducer";
 import Loader from "../layout/Loader/Loader";
 import toast from "react-hot-toast";
 
@@ -12,11 +12,15 @@ const Home = () => {
   const { products, loading, error } = useSelector((state) => state.product);
 
   useEffect(() => {
+    dispatch(getProducts({}));
+  }, [dispatch]); // Run only once
+
+  useEffect(() => {
     if (error) {
       toast.error(error);
+      dispatch(clearErrors());
     }
-    dispatch(getProducts());
-  }, [dispatch, error]);
+  }, [dispatch, error]); // Handle error separately
 
   return (
     <>

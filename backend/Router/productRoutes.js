@@ -30,7 +30,7 @@ router.get(
   getAllProducts
 );
 router.get("/getSingle-product/:id", getSingleProduct);
-router.get("/products", AllProductsWithFilter);
+router.get("", AllProductsWithFilter);
 router.put(
   "/update/:id",
   isAuthenticated,

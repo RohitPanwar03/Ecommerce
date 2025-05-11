@@ -12,11 +12,11 @@ const Header = () => {
         <div className="nav-middlelinks">
           <Link to={"/"}>Home</Link>
           <Link to={"/products"}>Products</Link>
-          <Link to={"/"}>Contact</Link>
-          <Link to={"/"}>About</Link>
+          <Link to={"/contact"}>Contact</Link>
+          <Link to={"/about"}>About</Link>
         </div>
         <div className="nav-rightlinks">
-          <Link to={"/"}>
+          <Link to={"/search"}>
             <div>
               <IoIosSearch />
               Search
@@ -28,7 +28,7 @@ const Header = () => {
               Cart
             </div>
           </Link>
-          <Link to={"/"}>
+          <Link to={"/login"}>
             <div>
               <RiFileUserFill />
               Profile
