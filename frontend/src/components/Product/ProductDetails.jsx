@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Carousel from "react-material-ui-carousel";
+import { useEffect, useState } from "react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
 import ReviewCard from "./ReviewCard";
@@ -15,7 +16,11 @@ import Rating from "@mui/material/Rating";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getProductDetails } from "../../reducers/productDetailReducer";
-import { addNewReview } from "../../reducers/addNewReviewReducer";
+import {
+  addNewReview,
+  clearErrors,
+  clearSuccess,
+} from "../../reducers/addNewReviewReducer";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -24,10 +29,14 @@ const ProductDetails = () => {
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
+  console.log(product);
 
-  //   const { success, error: reviewError } = useSelector(
-  //     (state) => state.newReview
-  //   );
+  // product.images.map((item) => {
+  //   console.log(item);
+  // });
+  const { success, error: reviewError } = useSelector(
+    (state) => state.newReview
+  );
 
   const options = {
     size: "large",
@@ -65,13 +74,9 @@ const ProductDetails = () => {
   };
 
   const reviewSubmitHandler = () => {
-    const myForm = new FormData();
-
-    myForm.set("rating", rating);
-    myForm.set("comment", comment);
-    myForm.set("productId", params.id);
-
-    dispatch(addNewReview(myForm));
+    dispatch(
+      addNewReview({ rating: rating, comment: comment, productId: params.id })
+    );
 
     setOpen(false);
   };
@@ -81,16 +86,16 @@ const ProductDetails = () => {
       toast.error(error);
     }
 
-    // if (reviewError) {
-    //   toast.error(reviewError);
-    // }
-
-    // if (success) {
-    //   alert.success("Review Submitted Successfully");
-    //   //   dispatch({ type: NEW_REVIEW_RESET });
-    // }
+    if (reviewError) {
+      toast.error(reviewError);
+      dispatch(clearErrors());
+    }
+    if (success) {
+      toast.success("Review Submitted Successfully");
+      dispatch(clearSuccess());
+    }
     dispatch(getProductDetails(params.id));
-  }, [dispatch, params.id, error]);
+  }, [dispatch, error, reviewError, success]);
 
   return (
     <>
@@ -101,17 +106,23 @@ const ProductDetails = () => {
           {/* <MetaData title={`${product.name} -- ECOMMERCE`} /> */}
           <div className="ProductDetails">
             <div>
-              <Carousel>
-                {product.images &&
-                  product.images.map((item, i) => (
-                    <img
-                      className="CarouselImage"
-                      key={i}
-                      src={item.url}
-                      alt={`${i} Slide`}
-                    />
+              {product.images && product.images.length > 0 && (
+                <Carousel
+                  showStatus={false}
+                  showIndicators={false}
+                  showArrows={false}
+                >
+                  {product.images.map((item) => (
+                    <div key={item.public_id}>
+                      <img
+                        src={item.url}
+                        alt="product"
+                        className="CarouselImage"
+                      />
+                    </div>
                   ))}
-              </Carousel>
+                </Carousel>
+              )}
             </div>
 
             <div>

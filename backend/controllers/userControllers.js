@@ -2,19 +2,36 @@ import { User } from "../model/UserModel.js";
 import { catchAsyncError } from "../utils/catchAsyncErrors.js";
 import { errorHandler } from "../utils/errorHandler.js";
 import { generateToken } from "../utils/jwtToken.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // Register User Controller
 export const registerController = catchAsyncError(async (req, res, next) => {
-  const { name, email, password, avatar } = req.body;
+  const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
+    folder: "Avatar",
+    width: 150,
+    crop: "scale",
+  });
+  const { name, email, password } = req.body;
 
+  if (!name || !email || !password) {
+    return next(
+      new errorHandler(400, "All fields (name, email, password) are required")
+    );
+  }
   const existingUser = await User.findOne({ email });
-
   if (existingUser) {
-    return next(new errorHandler(401, "User with same Email already Exist"));
+    return next(new errorHandler(401, "User with same Email already exists"));
   }
 
-  const user = await User.create({ name, email, password, avatar });
-
+  const user = await User.create({
+    name,
+    email,
+    password,
+    avatar: {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    },
+  });
   generateToken(user, 200, res, "User Created Successfully");
 });
 
@@ -72,6 +89,22 @@ export const updateUserDetails = catchAsyncError(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
+
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user._id);
+    await cloudinary.uploader.destroy(user.avatar.public_id);
+
+    const myCloud = await cloudinary.uploader.upload(req.body.avatar, {
+      folder: "Avatar",
+      width: 150,
+      crop: "scale",
+    });
+
+    newDetails.avatar = {
+      public_id: myCloud.public_id,
+      url: myCloud.secure_url,
+    };
+  }
 
   await User.findByIdAndUpdate(req.user._id, newDetails, {
     new: true,
@@ -163,3 +196,54 @@ export const getSingleUser = catchAsyncError(async (req, res, next) => {
     user,
   });
 });
+
+// forgot Password
+export const forgotPassword = catchAsyncError(async (req, res, next) => {
+  const { email, oldPassword, newPassword, confirmPassword } = req.body;
+  if (!email) {
+    return next(new errorHandler(400, "Please enter your email"));
+  }
+  const user = await User.findOne({ email: req.body.email }).select(
+    "+password"
+  );
+  console.log(user);
+  if (!user) {
+    return next(
+      new errorHandler(404, "Email does not exist"),
+      console.log(error)
+    );
+  }
+  await UpdatePassword({
+    user,
+    oldPassword,
+    newPassword,
+    confirmPassword,
+    res,
+    next,
+  });
+});
+
+const UpdatePassword = async ({
+  user,
+  oldPassword,
+  newPassword,
+  confirmPassword,
+  res,
+  next,
+}) => {
+  const isMatched = await user.comparePassword(oldPassword);
+  if (!isMatched) {
+    return next(new errorHandler(400, "Please enter the Correct Password"));
+  }
+
+  if (newPassword !== confirmPassword) {
+    return next(new errorHandler(400, "Confirm Password Doesn't match"));
+  }
+
+  user.password = newPassword;
+  await user.save();
+  res.status(200).json({
+    success: true,
+    message: "Password Updated Successfully",
+  });
+};

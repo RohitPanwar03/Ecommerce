@@ -7,7 +7,8 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FaceIcon from "@mui/icons-material/Face";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, registerNewUser } from "../../reducers/UserReducer";
-import { clearErrors } from "../../reducers/productReducer";
+import { clearErrors } from "../../reducers/UserReducer";
+import toast from "react-hot-toast";
 
 const LoginSignUp = () => {
   const location = useLocation();
@@ -40,17 +41,9 @@ const LoginSignUp = () => {
     e.preventDefault();
     dispatch(loginUser({ email: loginEmail, password: loginPassword }));
   };
-
   const registerSubmit = (e) => {
     e.preventDefault();
-
-    const myForm = new FormData();
-
-    myForm.set("name", name);
-    myForm.set("email", email);
-    myForm.set("password", password);
-    myForm.set("avatar", avatar);
-    dispatch(registerNewUser(myForm));
+    dispatch(registerNewUser({ name, email, password, avatar }));
   };
 
   const registerDataChange = (e) => {
@@ -63,7 +56,6 @@ const LoginSignUp = () => {
           setAvatar(reader.result);
         }
       };
-
       reader.readAsDataURL(e.target.files[0]);
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
@@ -74,7 +66,7 @@ const LoginSignUp = () => {
 
   useEffect(() => {
     if (error) {
-      alert.error(error);
+      toast.error(error);
       dispatch(clearErrors());
     }
 

@@ -1,10 +1,11 @@
 nav {
   width: 100vw;
   max-width: 100%;
+
   height: 5rem;
   display: block;
   padding: 1rem 5rem;
-  box-shadow: 0px -2px 5px;
+  box-shadow: 0px 2px 5px rgb(0, 0, 0, 0.8);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -17,6 +18,7 @@ nav {
 .nav-middlelinks {
   width: 50%;
   display: flex;
+  gap: 2rem;
   justify-content: space-evenly;
 }
 
@@ -38,6 +40,7 @@ nav {
 .nav-rightlinks {
   width: 30%;
   display: flex;
+  gap: 2rem;
   justify-content: space-evenly;
 }
 
@@ -124,9 +127,21 @@ nav {
   transform: translateY(-3px);
 }
 
+.speedDial {
+  position: fixed;
+  right: 3vmax;
+  top: 8.5vmax;
+}
+
+.speedDialIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 100%;
+}
+
 /* Responsive */
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1000px) {
   nav {
     padding: 1rem 3rem;
   }
@@ -140,13 +155,15 @@ nav {
 
 @media screen and (max-width: 650px) {
   .nav-logo {
-    width: 20%;
+    display: none;
   }
   .nav-middlelinks {
-    width: 40%;
+    width: 100%;
+    gap: 1rem;
   }
   .nav-rightlinks {
-    width: 40%;
+    width: 100%;
+    gap: 1rem;
   }
   .nav-middlelinks > a {
     font-size: 0.7rem;
@@ -162,8 +179,5 @@ nav {
   }
   .hamburger {
     display: block;
-  }
-  .showNav {
-    top: 0%;
   }
 }

@@ -19,9 +19,7 @@ export const getProducts = createAsyncThunk(
       if (category) {
         link += `&category=${category}`;
       }
-      console.log("Fetching from:", link);
       const res = await axios.get(link);
-      console.log("Response data:", res.data);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -35,6 +33,9 @@ const productSlice = createSlice({
     products: [],
     loading: true,
     error: null,
+    resultPerPage: 8,
+    productsCount: 0,
+    filteredProductsCount: 0,
   },
   reducers: {
     clearErrors: (state) => {
@@ -49,6 +50,9 @@ const productSlice = createSlice({
     builder.addCase(getProducts.fulfilled, (state, action) => {
       state.loading = false;
       state.products = action.payload.products;
+      state.resultPerPage = action.payload.resultPerPage;
+      state.filteredProductsCount = action.payload.filteredProductCount;
+      state.productsCount = action.payload.totalProducts;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
       state.loading = false;

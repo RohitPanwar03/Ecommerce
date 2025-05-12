@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import Loader from "../layout/Loader/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import "./Profile.css";
-import Header from "../layout/Header/Header";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -21,17 +20,12 @@ const Profile = () => {
         <Loader />
       ) : (
         <Fragment>
-          <Header />
           {/* <MetaData title={`${user.name}'s Profile`} /> */}
           <div className="profileContainer">
             <div>
               <h1>My Profile</h1>
               <img
-                src={
-                  user.avatar.url !== ""
-                    ? user.avatar.url
-                    : "../../../public/Profile.png"
-                }
+                src={isAuthenticated ? user.avatar.url : ""}
                 alt={user.name}
               />
               <Link to="/me/update">Edit Profile</Link>
@@ -39,7 +33,7 @@ const Profile = () => {
             <div>
               <div>
                 <h4>Full Name</h4>
-                <p>{user.name}</p>
+                <p>{user.name.charAt(0).toUpperCase() + user.name.substr(1)}</p>
               </div>
               <div>
                 <h4>Email</h4>

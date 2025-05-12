@@ -1,7 +1,8 @@
 footer {
-  margin-top: 10vmax;
+  width: 100vmax;
+  max-width: 100%;
   padding: 2vmax;
-  background-color: rgb(34, 33, 33, 0.8);
+  background-color: rgb(34, 33, 33);
   color: white;
   display: flex;
   align-items: center;

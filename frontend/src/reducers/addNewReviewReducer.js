@@ -3,12 +3,12 @@ import axios from "axios";
 
 export const addNewReview = createAsyncThunk(
   "addNewReview",
-  async (data, { rejectWithValue }) => {
+  async ({ rating, comment, productId }, { rejectWithValue }) => {
     try {
       const res = await axios.put(`/api/v1/products/review`, {
-        rating: data.rating,
-        comment: data.comment,
-        productId: data.id,
+        rating,
+        comment,
+        productId,
       });
       return res.data;
     } catch (error) {
@@ -20,9 +20,17 @@ export const addNewReview = createAsyncThunk(
 const addNewReviewReducer = createSlice({
   name: "newReview",
   initialState: {
-    review: {},
+    success: false,
     loading: false,
     error: null,
+  },
+  reducers: {
+    clearErrors: (state) => {
+      state.error = null;
+    },
+    clearSuccess: (state) => {
+      state.error = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addNewReview.pending, (state, action) => {
@@ -31,7 +39,7 @@ const addNewReviewReducer = createSlice({
     });
     builder.addCase(addNewReview.fulfilled, (state, action) => {
       state.loading = false;
-      state.review = action.payload;
+      state.success = action.payload;
     });
     builder.addCase(addNewReview.rejected, (state, action) => {
       state.loading = false;
@@ -40,4 +48,5 @@ const addNewReviewReducer = createSlice({
   },
 });
 
+export const { clearSuccess, clearErrors } = addNewReviewReducer.actions;
 export default addNewReviewReducer.reducer;

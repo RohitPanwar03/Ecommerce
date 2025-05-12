@@ -1,14 +1,24 @@
 import cookieParser from "cookie-parser";
 import express from "express";
+import userRouter from "./Router/userRoutes.js";
+import productRouter from "./Router/productRoutes.js";
+import orderRouter from "./Router/orderRoute.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
+app.use(fileUpload());
+
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/order", orderRouter);
 
 app.use(errorMiddleware);
 

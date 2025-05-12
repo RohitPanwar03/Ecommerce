@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import {
   LoginController,
   registerController,
@@ -10,6 +11,7 @@ import {
   updateUserPassword,
   getAllUsers,
   getSingleUser,
+  forgotPassword,
 } from "../controllers/userControllers.js";
 import {
   authorizedRole,
@@ -48,6 +50,7 @@ router.get(
   getSingleUser
 );
 
-router.get("/logout", isAuthenticated, logoutUser);
+router.get("/logout", logoutUser);
+router.post("/forgot-password", forgotPassword);
 
 export default router;

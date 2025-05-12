@@ -23,7 +23,11 @@
 }
 
 .CarouselImage {
-  width: 20vmax;
+  width: 10vmax;
+}
+
+.carousel .slide:not(focus) .CarouselImage {
+  height: 35rem;
 }
 
 .detailsBlock-1 > h2 {
