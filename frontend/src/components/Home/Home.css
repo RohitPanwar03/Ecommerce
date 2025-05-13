@@ -10,7 +10,9 @@
   align-items: center;
   justify-content: center;
   color: white;
+  position: relative;
 }
+
 .banner > h1 {
   margin: 5vmax;
 

@@ -21,6 +21,7 @@ import {
   clearErrors,
   clearSuccess,
 } from "../../reducers/addNewReviewReducer";
+import { AddToCart } from "../../reducers/cartReducer";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -29,11 +30,6 @@ const ProductDetails = () => {
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
-  console.log(product);
-
-  // product.images.map((item) => {
-  //   console.log(item);
-  // });
   const { success, error: reviewError } = useSelector(
     (state) => state.newReview
   );
@@ -51,7 +47,7 @@ const ProductDetails = () => {
   const [comment, setComment] = useState("");
 
   const increaseQuantity = () => {
-    if (product.Stock <= quantity) return;
+    if (product.stock <= quantity) return;
 
     const qty = quantity + 1;
     setQuantity(qty);
@@ -65,8 +61,17 @@ const ProductDetails = () => {
   };
 
   const addToCartHandler = () => {
-    // dispatch(addItemsToCart(params.id, quantity));
-    alert.success("Item Added To Cart");
+    const productToCart = {
+      id: product._id,
+      stock: product.stock,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      images: product.images[0].url,
+      quantity,
+    };
+    dispatch(AddToCart(productToCart));
+    toast.success("Item Added To Cart");
   };
 
   const submitReviewToggle = () => {
@@ -142,11 +147,11 @@ const ProductDetails = () => {
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
                     <button onClick={decreaseQuantity}>-</button>
-                    <input readOnly type="number" value={1} />
+                    <p>{quantity}</p>
                     <button onClick={increaseQuantity}>+</button>
                   </div>
                   <button
-                    disabled={product.Stock < 1 ? true : false}
+                    disabled={product.stock < 1 ? true : false}
                     onClick={addToCartHandler}
                   >
                     Add to Cart
@@ -155,9 +160,13 @@ const ProductDetails = () => {
 
                 <p>
                   Status:
-                  <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
-                    {product.Stock < 1 ? "OutOfStock" : "InStock"}
+                  <b className={product.stock < 1 ? "redColor" : "greenColor"}>
+                    {product.stock < 1 ? "OutOfStock" : "InStock"}
                   </b>
+                </p>
+                <p>
+                  Items In Stock:
+                  <b>{product.stock}</b>
                 </p>
               </div>
 

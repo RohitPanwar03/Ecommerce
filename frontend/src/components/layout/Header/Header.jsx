@@ -3,8 +3,11 @@ import { IoIosSearch, IoIosCart } from "react-icons/io";
 import { RiFileUserFill } from "react-icons/ri";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "./Header.css";
+import { useSelector } from "react-redux";
+import Badge from "@mui/material/Badge";
 
 const Header = () => {
+  const { cartItem } = useSelector((state) => state.cart);
   return (
     <>
       <nav className="header">
@@ -22,10 +25,11 @@ const Header = () => {
               Search
             </div>
           </Link>
-          <Link to={"/"}>
+          <Link to={"/cart"}>
             <div>
-              <IoIosCart />
-              Cart
+              <Badge badgeContent={cartItem?.length} color="primary" showZero>
+                <IoIosCart />
+              </Badge>
             </div>
           </Link>
           <Link to={"/login"}>

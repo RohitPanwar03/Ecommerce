@@ -69,6 +69,11 @@
   align-items: center;
 }
 
+.detailsBlock-3-1-1 {
+  display: flex;
+  align-items: center;
+}
+
 .detailsBlock-3-1-1 > button {
   border: none;
   background-color: rgba(0, 0, 0, 0.616);
@@ -81,13 +86,13 @@
   background-color: rgba(0, 0, 0, 0.767);
 }
 
-.detailsBlock-3-1-1 > input {
+.detailsBlock-3-1-1 > p {
   border: none;
   padding: 0.5vmax;
-  width: 1vmax;
   text-align: center;
+  width: 2vmax;
   outline: none;
-  font: 400 0.8vmax "Roboto";
+  font: 600 0.8vmax "Roboto";
   color: black;
 }
 
@@ -245,8 +250,8 @@
     width: 4vmax;
   }
 
-  .detailsBlock-3-1-1 > input {
-    padding: 1.5vmax;
+  .detailsBlock-3-1-1 > p {
+    padding: 2vmax;
     width: 3vmax;
     font: 400 1.8vmax "Roboto";
   }
