@@ -32,6 +32,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import OrderSuccess from "./components/Cart/OrderSuccess";
 import MyOrders from "./components/Order/MyOrders";
 import OrderDetails from "./components/Order/OrderDetails";
+import AdminRoute from "./components/Route/AdminRoute";
+import Dashboard from "./components/Admin/Dashboard";
+import NewProduct from "./components/Admin/NewProduct";
 
 function App() {
   const dispatch = useDispatch();
@@ -89,7 +92,11 @@ function App() {
           />
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/orders" element={<MyOrders />} />
-          <Route path="/order/:id" element={<OrderDetails />} />
+          <Route path="/order-details/:id" element={<OrderDetails />} />
+        </Route>
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/dashboard" element={<Dashboard />}></Route>
+          <Route path="/admin/product" element={<NewProduct />}></Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

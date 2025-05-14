@@ -35,6 +35,7 @@ const addNewReviewReducer = createSlice({
   extraReducers: (builder) => {
     builder.addCase(addNewReview.pending, (state, action) => {
       state.loading = true;
+      state.success = false;
       state.error = null;
     });
     builder.addCase(addNewReview.fulfilled, (state, action) => {
@@ -43,6 +44,7 @@ const addNewReviewReducer = createSlice({
     });
     builder.addCase(addNewReview.rejected, (state, action) => {
       state.loading = false;
+      state.success = false;
       state.error = action.payload;
     });
   },

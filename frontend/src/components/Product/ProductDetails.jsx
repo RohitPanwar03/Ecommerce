@@ -95,8 +95,8 @@ const ProductDetails = () => {
       dispatch(clearErrors());
     }
     if (success) {
-      toast.success("Review Submitted Successfully");
       dispatch(clearSuccess());
+      toast.success("Review Submitted Successfully");
     }
     dispatch(getProductDetails(params.id));
   }, [dispatch, error, reviewError, success]);

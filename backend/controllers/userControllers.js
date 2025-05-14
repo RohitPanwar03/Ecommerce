@@ -206,12 +206,8 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email }).select(
     "+password"
   );
-  console.log(user);
   if (!user) {
-    return next(
-      new errorHandler(404, "Email does not exist"),
-      console.log(error)
-    );
+    return next(new errorHandler(404, "Email does not exist"));
   }
   await UpdatePassword({
     user,

@@ -1,20 +1,26 @@
 import { Fragment, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import "./MyOrders.css";
+import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import Loader from "../layout/Loader/Loader";
 import { Link } from "react-router-dom";
-import Typography from "@mui/material/Typography";
 // import MetaData from "../layout/MetaData";
-import LaunchIcon from "@mui/icons-material/Launch";
+import EditIcon from "@mui/icons-material/Edit";
+import SideBar from "./Sidebar";
 import toast from "react-hot-toast";
-import { clearErrors, myOrders } from "../../reducers/orderReducer";
 
-const MyOrders = () => {
+const OrderList = () => {
   const dispatch = useDispatch();
 
-  const { loading, error, order } = useSelector((state) => state.Order);
-  const { user } = useSelector((state) => state.User);
+  const { error, orders } = useSelector((state) => state.allOrders);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+
+    dispatch(getAllOrders());
+  }, [dispatch, error]);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
@@ -25,7 +31,9 @@ const MyOrders = () => {
       minWidth: 150,
       flex: 0.5,
       cellClassName: (params) => {
-        return params.row.status === "Delivered" ? "greenColor" : "redColor";
+        return params.getValue(params.id, "status") === "Delivered"
+          ? "greenColor"
+          : "redColor";
       },
     },
     {
@@ -33,7 +41,7 @@ const MyOrders = () => {
       headerName: "Items Qty",
       type: "number",
       minWidth: 150,
-      flex: 0.3,
+      flex: 0.4,
     },
 
     {
@@ -53,56 +61,47 @@ const MyOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/order-details/${params.row.id}`}>
-            <LaunchIcon />
+          <Link to={`/admin/order/${params.row.id}`}>
+            <EditIcon />
           </Link>
         );
       },
     },
   ];
+
   const rows = [];
 
-  order &&
-    order.forEach((item, index) => {
+  orders &&
+    orders.forEach((item) => {
       rows.push({
-        itemsQty: item.orderItems.length,
         id: item._id,
+        itemsQty: item.orderItems.length,
+        amount: item.totalPrice,
         status: item.orderStatus,
-        amount: "₹ " + item.totalPrice,
       });
     });
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch();
-      clearErrors();
-    }
-
-    dispatch(myOrders());
-  }, [dispatch, alert, error]);
-
   return (
     <Fragment>
-      {/* <MetaData title={`${user.name} - Orders`} /> */}
+      <MetaData title={`ALL ORDERS - Admin`} />
 
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="myOrdersPage">
-          <Typography id="myOrdersHeading">{user.name}'s Orders</Typography>
+      <div className="dashboard">
+        <SideBar />
+        <div className="productListContainer">
+          <h1 id="productListHeading">ALL ORDERS</h1>
+
           <DataGrid
             rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick
-            className="myOrdersTable"
+            className="productListTable"
             autoHeight
           />
         </div>
-      )}
+      </div>
     </Fragment>
   );
 };
 
-export default MyOrders;
+export default OrderList;
