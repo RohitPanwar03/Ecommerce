@@ -148,7 +148,7 @@ const UserReducer = createSlice({
     });
     builder.addCase(loadUser.pending, (state, action) => {
       state.loading = true;
-      state.isAuthenticated = false;
+      state.isAuthenticated = true;
     });
     builder.addCase(loadUser.fulfilled, (state, action) => {
       state.loading = false;

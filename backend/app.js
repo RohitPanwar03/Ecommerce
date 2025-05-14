@@ -6,6 +6,7 @@ import orderRouter from "./Router/orderRoute.js";
 import { errorMiddleware } from "./middlewares/error.js";
 import cors from "cors";
 import fileUpload from "express-fileupload";
+import paymentRouter from "./Router/paymentRoute.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(fileUpload());
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/order", orderRouter);
+app.use("/api/v1/payment", paymentRouter);
 
 app.use(errorMiddleware);
 

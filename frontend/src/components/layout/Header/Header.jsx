@@ -5,13 +5,15 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import "./Header.css";
 import { useSelector } from "react-redux";
 import Badge from "@mui/material/Badge";
+import logo from "../../../images/logo.png";
 
 const Header = () => {
   const { cartItem } = useSelector((state) => state.cart);
   return (
     <>
       <nav className="header">
-        <div className="nav-logo"></div>
+        <img className="nav-logo" src={logo} alt="logo" />
+
         <div className="nav-middlelinks">
           <Link to={"/"}>Home</Link>
           <Link to={"/products"}>Products</Link>

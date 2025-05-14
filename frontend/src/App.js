@@ -22,6 +22,8 @@ import UpdatePassword from "./components/User/UpdatePassword";
 import ForgotPassword from "./components/User/ForgotPassword";
 import UpdateProfile from "./components/User/UpdateProfile";
 import Cart from "./components/Cart/Cart";
+import Shipping from "./components/Cart/Shipping";
+import ConfirmOrder from "./components/Cart/ConfirmOrder";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,6 +59,8 @@ function App() {
           <Route path="/account" element={<Profile />} />
           <Route path="/password/update" element={<UpdatePassword />} />
           <Route path="/me/update" element={<UpdateProfile />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/order/confirm" element={<ConfirmOrder />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

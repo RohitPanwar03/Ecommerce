@@ -9,13 +9,13 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { logOut } from "../../../reducers/UserReducer";
 import Loader from "../Loader/Loader";
 
 const UserOptions = ({ user, loading }) => {
-  // const { cartItems } = useSelector((state) => state.User);
+  const { cartItem } = useSelector((state) => state.cart);
 
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -27,14 +27,10 @@ const UserOptions = ({ user, loading }) => {
     {
       icon: (
         <ShoppingCartIcon
-        //   style={{ color: cartItems.length > 0 ? "tomato" : "unset" }}
+          style={{ color: cartItem.length > 0 ? "tomato" : "unset" }}
         />
       ),
-      name: `Cart(
-   
-        
-
-      )`,
+      name: `Cart${" " + cartItem.length}`,
       func: cart,
     },
     { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
@@ -92,11 +88,10 @@ const UserOptions = ({ user, loading }) => {
           >
             {options.map((item) => (
               <SpeedDialAction
+                tooltipTitle={item.name}
                 key={item.name}
                 icon={item.icon}
-                tooltipTitle={item.name}
                 onClick={item.func}
-                tooltipOpen={window.innerWidth <= 600 ? true : false}
               />
             ))}
           </SpeedDial>

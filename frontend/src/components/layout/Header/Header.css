@@ -1,7 +1,10 @@
 nav {
   width: 100vw;
   max-width: 100%;
-
+  position: sticky;
+  background-color: rgb(255, 255, 255);
+  top: 0;
+  left: 0;
   height: 5rem;
   display: block;
   padding: 1rem 5rem;
