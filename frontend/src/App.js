@@ -24,14 +24,28 @@ import UpdateProfile from "./components/User/UpdateProfile";
 import Cart from "./components/Cart/Cart";
 import Shipping from "./components/Cart/Shipping";
 import ConfirmOrder from "./components/Cart/ConfirmOrder";
+import { useState } from "react";
+import axios from "axios";
+import Payment from "./components/Cart/Payment";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import OrderSuccess from "./components/Cart/OrderSuccess";
+import MyOrders from "./components/Order/MyOrders";
 
 function App() {
   const dispatch = useDispatch();
+  const [stripeApikey, setStripeApikey] = useState("");
   const { isAuthenticated, user, error, loading } = useSelector(
     (state) => state.User
   );
+
+  async function getStripeApiKey() {
+    const { data } = await axios.get("/api/v1/payment/stripekey");
+    setStripeApikey(data.stripeApiKey);
+  }
   useEffect(() => {
     store.dispatch(loadUser());
+    getStripeApiKey();
   }, []);
 
   useEffect(() => {
@@ -47,6 +61,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+
         <Route path="/products/" element={<Products />} />
         <Route path="/products/:keyword" element={<Products />} />
         <Route path="/search" element={<Search />} />
@@ -61,6 +76,18 @@ function App() {
           <Route path="/me/update" element={<UpdateProfile />} />
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/order/confirm" element={<ConfirmOrder />} />
+          <Route
+            path="/process/payment"
+            element={
+              stripeApikey && (
+                <Elements stripe={loadStripe(stripeApikey)}>
+                  <Payment />
+                </Elements>
+              )
+            }
+          />
+          <Route path="/success" element={<OrderSuccess />} />
+          <Route path="/orders" element={<MyOrders />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

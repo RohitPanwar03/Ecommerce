@@ -62,12 +62,11 @@ const ProductDetails = () => {
 
   const addToCartHandler = () => {
     const productToCart = {
-      id: product._id,
+      product: product._id,
       stock: product.stock,
       name: product.name,
-      description: product.description,
       price: product.price,
-      images: product.images[0].url,
+      image: product.images[0].url,
       quantity,
     };
     dispatch(AddToCart(productToCart));

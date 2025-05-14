@@ -13,7 +13,6 @@ const cartReducer = createSlice({
   reducers: {
     AddToCart: (state, action) => {
       const product = action.payload;
-      console.log(action.payload);
       const productIndex = state.cartItem.findIndex((item) => {
         return item.id === product.id;
       });
@@ -53,7 +52,7 @@ const cartReducer = createSlice({
     },
     deleteItem: (state, action) => {
       const product = state.cartItem.filter((item) => {
-        return item.id.toString() !== action.payload.toString();
+        return item.product.toString() !== action.payload.toString();
       });
 
       state.cartItem = product;
@@ -62,6 +61,10 @@ const cartReducer = createSlice({
     saveShippingInfo: (state, action) => {
       state.shippingInfo = action.payload;
       localStorage.setItem("shippingInfo", JSON.stringify(action.payload));
+    },
+    clearCart: (state, action) => {
+      state.cartItem = [];
+      localStorage.cartItem("cartItem");
     },
   },
 });
@@ -72,5 +75,6 @@ export const {
   decreaseQuantity,
   deleteItem,
   saveShippingInfo,
+  clearCart,
 } = cartReducer.actions;
 export default cartReducer.reducer;

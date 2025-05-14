@@ -64,21 +64,21 @@ const Cart = () => {
 
                 {cartItem &&
                   cartItem.map((item) => (
-                    <div className="cartContainer" key={item.id}>
+                    <div className="cartContainer" key={item.product}>
                       <CartItemCard
                         item={item}
                         deleteCartItems={deleteCartItems}
                       />
                       <div className="cartInput">
                         <button
-                          onClick={() => decrease(item.id, item.quantity)}
+                          onClick={() => decrease(item.product, item.quantity)}
                         >
                           -
                         </button>
                         <p type="number">{item.quantity}</p>
                         <button
                           onClick={() =>
-                            increase(item.id, item.quantity, item.stock)
+                            increase(item.product, item.quantity, item.stock)
                           }
                         >
                           +

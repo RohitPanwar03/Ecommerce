@@ -8,7 +8,7 @@ export const getProductDetails = createAsyncThunk(
       const res = await axios.get(`/api/v1/products/getSingle-product/${id}`);
       return res.data.product;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
