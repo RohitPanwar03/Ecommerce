@@ -6,7 +6,7 @@ export const newOrder = createAsyncThunk(
   "newOrder",
   async (order, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("https://ecommerce-7079.onrender.com/api/v1/order/new", order, { headers: { "Content-Type": "application/json" }, { withCredentials: true } });
+      const { data } = await axios.post("https://ecommerce-7079.onrender.com/api/v1/order/new", order, { headers: { "Content-Type": "application/json" },  withCredentials: true  });
       
       return data.order;
     } catch (error) {
