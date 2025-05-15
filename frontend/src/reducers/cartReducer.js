@@ -28,7 +28,7 @@ const cartReducer = createSlice({
       localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
     },
     increaseQuantity: (state, action) => {
-      const itemIndex = state.cartItem.findIndex((item) => {
+      const productIndex = state.cartItem.findIndex((item) => {
         return item.product === action.payload;
       });
 
@@ -42,7 +42,7 @@ const cartReducer = createSlice({
       localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
     },
     decreaseQuantity: (state, action) => {
-      const itemIndex = state.cartItem.findIndex((item) => {
+      const productIndex = state.cartItem.findIndex((item) => {
         return item.product === action.payload;
       });
        if (productIndex >= 0) {
