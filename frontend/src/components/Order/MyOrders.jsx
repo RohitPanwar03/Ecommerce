@@ -61,7 +61,6 @@ const MyOrders = () => {
     },
   ];
   const rows = [];
-
   order &&
     order.forEach((item, index) => {
       rows.push({
@@ -75,10 +74,8 @@ const MyOrders = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch();
-      clearErrors();
+      dispatch(clearErrors());
     }
-
     dispatch(myOrders());
   }, [dispatch, alert, error]);
 

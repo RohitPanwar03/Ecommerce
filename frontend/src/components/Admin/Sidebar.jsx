@@ -22,13 +22,13 @@ const Sidebar = () => {
       <Link to="/admin/products">
         <p>
           <PostAddIcon />
-          All
+          Products
         </p>
       </Link>
       <Link to="/admin/product">
         <p>
           <AddIcon />
-          Create
+          Create Product
         </p>
       </Link>
 
@@ -41,12 +41,6 @@ const Sidebar = () => {
       <Link to="/admin/users">
         <p>
           <PeopleIcon /> Users
-        </p>
-      </Link>
-      <Link to="/admin/reviews">
-        <p>
-          <RateReviewIcon />
-          Reviews
         </p>
       </Link>
     </div>

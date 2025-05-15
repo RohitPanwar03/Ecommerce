@@ -42,6 +42,36 @@ export const deleteProductsAdmin = createAsyncThunk(
   }
 );
 
+export const getProductDetails = createAsyncThunk(
+  "getProductDetails",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(
+        `/api/v1/products/getSingle-product/${productId}`
+      );
+      return data.product;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+export const updateProduct = createAsyncThunk(
+  "updateProduct",
+  async ({ productId, myForm }, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.put(
+        `/api/v1/products/update/${productId}`,
+        myForm,
+        config
+      );
+      return data.success;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const adminProductSlice = createSlice({
   name: "adminProducts",
   initialState: {
@@ -133,12 +163,77 @@ const deleteProductSlice = createSlice({
   },
 });
 
+const getProductDetailSlice = createSlice({
+  name: "getProductDetails",
+  initialState: {
+    product: {},
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    clearProductDetailError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getProductDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getProductDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.product = action.payload;
+    });
+    builder.addCase(getProductDetails.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+  },
+});
+
+const updateProductSlice = createSlice({
+  name: "updateProducts",
+  initialState: {
+    success: false,
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    updateProductErrors: (state) => {
+      state.error = null;
+    },
+    updateProductSuccess: (state) => {
+      state.success = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateProduct.pending, (state, action) => {
+      state.success = false;
+      state.loading = true;
+    });
+    builder.addCase(updateProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = action.payload;
+    });
+    builder.addCase(updateProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+  },
+});
+
 // Exporting Actions
 export const { clearErrors } = adminProductSlice.actions;
 export const { clearNewProductError, clearSuccess } =
   adminNewProductSlice.actions;
 export const { clearDeleteErrors, clearisDeleted } = deleteProductSlice.actions;
+export const { clearProductDetailError } = getProductDetailSlice.actions;
+export const { updateProductErrors, updateProductSuccess } =
+  updateProductSlice.actions;
+
 // Exporting Reducers
 export const adminProductReducer = adminProductSlice.reducer;
 export const adminNewProductReducer = adminNewProductSlice.reducer;
 export const deleteProductsReducer = deleteProductSlice.reducer;
+export const productDetailsReducer = getProductDetailSlice.reducer;
+export const updateProductReducer = updateProductSlice.reducer;

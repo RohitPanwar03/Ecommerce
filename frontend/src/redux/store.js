@@ -10,6 +10,8 @@ import {
   adminProductReducer,
   adminNewProductReducer,
   deleteProductsReducer,
+  productDetailsReducer,
+  updateProductReducer,
 } from "../reducers/adminProductReducer";
 import {
   adminUserReducer,
@@ -47,6 +49,8 @@ export const store = configureStore({
     // Admin Products {Update, Delete, Create}
     adminProducts: adminProductReducer,
     newProduct: adminNewProductReducer,
+    getProductDetails: productDetailsReducer,
+    updateProducts: updateProductReducer,
     deleteProducts: deleteProductsReducer,
   },
 });

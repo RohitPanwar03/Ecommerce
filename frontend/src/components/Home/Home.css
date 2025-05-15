@@ -1,5 +1,5 @@
 .banner {
-  background-image: linear-gradient(to right, #d79e5d, #e77722);
+  background-image: url("../../images/cover.jfif");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -84,6 +84,7 @@
 
 .productCard > img {
   width: 14vmax;
+  height: 100%;
 }
 
 .productCard > div {
