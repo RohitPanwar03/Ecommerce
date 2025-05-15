@@ -19,10 +19,8 @@ export const getOrderDetails = createAsyncThunk(
   "getOrderDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/order/single-order/${id}`,{
-        {  withCredentials: true }
-        
-      });
+      const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/order/single-order/${id}`,
+        {  withCredentials: true });
       return data.order;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -38,8 +36,7 @@ export const updateOrderStatus = createAsyncThunk(
         `https://ecommerce-7079.onrender.com/api/v1/order/update-Order/${orderId}`,
         myForm,
        { headers: { "Content-Type": "application/json" } , { withCredentials: true }}
-    
-      );
+  );
       return data.success;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
