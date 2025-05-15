@@ -5,7 +5,9 @@ export const getAllOrders = createAsyncThunk(
   "getAllOrders",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/order/getAll-Orders");
+      const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/order/getAll-Orders",                        
+        {  withCredentials: true, }
+    );
       return data.orders;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -17,7 +19,10 @@ export const getOrderDetails = createAsyncThunk(
   "getOrderDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/order/single-order/${id}`);
+      const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/order/single-order/${id}`,{
+        {  withCredentials: true, }
+        
+      });
       return data.order;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -29,11 +34,11 @@ export const updateOrderStatus = createAsyncThunk(
   "updateOrderStatus",
   async ({ orderId, myForm }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.put(
         `https://ecommerce-7079.onrender.com/api/v1/order/update-Order/${orderId}`,
         myForm,
-        config
+       { headers: { "Content-Type": "application/json" } }
+    
       );
       return data.success;
     } catch (error) {
