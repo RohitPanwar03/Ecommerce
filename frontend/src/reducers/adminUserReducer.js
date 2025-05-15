@@ -49,7 +49,7 @@ export const updateUserRole = createAsyncThunk(
       const { data } = await axios.put(
         `https://ecommerce-7079.onrender.com/api/v1/user/update-user-role/${userId}`,
         myForm,
-      { headers: { "Content-Type": "application/json" } }
+      { headers: { "Content-Type": "application/json" }, { withCredentials: true } }
       );
       return data.success;
     } catch (error) {
