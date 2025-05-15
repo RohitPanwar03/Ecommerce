@@ -14,7 +14,7 @@ export const getAdminProducts = createAsyncThunk(
 );
 
 export const newAdminProduct = createAsyncThunk(
-  "getAdminProducts",
+  "newAdminProduct",
   async (myForm, { rejectWithValue }) => {
     try {
       const config = { headers: { "Content-Type": "application/json" } };
@@ -31,7 +31,7 @@ export const newAdminProduct = createAsyncThunk(
 );
 
 export const deleteProductsAdmin = createAsyncThunk(
-  "getAdminProducts",
+  "deleteProductsAdmin",
   async (id, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(`/api/v1/products/delete/${id}`);
@@ -81,18 +81,19 @@ const adminNewProductSlice = createSlice({
       state.error = null;
     },
     clearSuccess: (state) => {
-      state.success = null;
+      state.success = false;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getAdminProducts.pending, (state, action) => {
+    builder.addCase(newAdminProduct.pending, (state, action) => {
+      state.success = false;
       state.loading = true;
     });
-    builder.addCase(getAdminProducts.fulfilled, (state, action) => {
+    builder.addCase(newAdminProduct.fulfilled, (state, action) => {
       state.loading = false;
       state.success = action.payload;
     });
-    builder.addCase(getAdminProducts.rejected, (state, action) => {
+    builder.addCase(newAdminProduct.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload;
       state.success = false;
@@ -117,6 +118,7 @@ const deleteProductSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(deleteProductsAdmin.pending, (state, action) => {
+      state.isDeleted = false;
       state.loading = true;
     });
     builder.addCase(deleteProductsAdmin.fulfilled, (state, action) => {
@@ -124,9 +126,9 @@ const deleteProductSlice = createSlice({
       state.isDeleted = action.payload;
     });
     builder.addCase(deleteProductsAdmin.rejected, (state, action) => {
+      state.isDeleted = false;
       state.loading = false;
       state.error = action.payload;
-      state.isDeleted = false;
     });
   },
 });

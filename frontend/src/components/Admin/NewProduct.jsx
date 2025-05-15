@@ -48,10 +48,10 @@ const NewProduct = () => {
 
     if (success) {
       toast.success("Product Created Successfully");
-      navigate("/admin/dashboard");
       dispatch(clearSuccess());
+      navigate("/admin/products");
     }
-  }, [dispatch, alert, error, success]);
+  }, [dispatch, error, success]);
 
   const createProductSubmitHandler = (e) => {
     e.preventDefault();
@@ -63,12 +63,10 @@ const NewProduct = () => {
     myForm.set("description", description);
     myForm.set("category", category);
     myForm.set("Stock", Stock);
-
     images.forEach((image) => {
       myForm.append("images", image);
     });
-    dispatch();
-    newAdminProduct(myForm);
+    dispatch(newAdminProduct(myForm));
   };
 
   const createProductImagesChange = (e) => {
@@ -93,7 +91,7 @@ const NewProduct = () => {
 
   return (
     <Fragment>
-      <MetaData title="Create Product" />
+      {/* <MetaData title="Create Product" /> */}
       <div className="dashboard">
         <SideBar />
         <div className="newProductContainer">

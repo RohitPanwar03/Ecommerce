@@ -9,21 +9,40 @@ import { getAdminProducts } from "../../reducers/adminProductReducer";
 import { getAllUsers } from "../../reducers/adminUserReducer";
 import { getAllOrders } from "../../reducers/adminOrdersReducer";
 // import MetaData from "../layout/MetaData";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  ArcElement,
+  Tooltip,
+  Legend
+);
 
 const Dashboard = () => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.adminProducts);
 
-  const { orders } = useSelector((state) => state.allUsers);
+  const { orders } = useSelector((state) => state.adminOrders);
 
-  const { users } = useSelector((state) => state.User);
-
+  const { users } = useSelector((state) => state.allUsers);
   let outOfStock = 0;
 
   products &&
     products.forEach((item) => {
-      if (item.Stock === 0) {
+      if (item.stock === 0) {
         outOfStock += 1;
       }
     });

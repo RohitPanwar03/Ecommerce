@@ -5,6 +5,7 @@ import {
 } from "../middlewares/isAuthenticated.js";
 import {
   createOrder,
+  getAllOrders,
   getMyOrder,
   getSingleOrder,
   updateOrders,
@@ -19,7 +20,7 @@ router.get(
   "/getAll-Orders",
   isAuthenticated,
   authorizedRole("admin"),
-  getMyOrder
+  getAllOrders
 );
 router.put(
   "/update-Order/:id",

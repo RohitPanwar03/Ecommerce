@@ -1,4 +1,5 @@
 .productListContainer {
+  padding: 0 2vmax;
   width: 100%;
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);
@@ -45,6 +46,12 @@
 
 .MuiDataGrid-columnHeader div {
   color: rgb(255, 255, 255);
+}
+
+.productActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 600px) {

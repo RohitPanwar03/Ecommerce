@@ -35,6 +35,11 @@ import OrderDetails from "./components/Order/OrderDetails";
 import AdminRoute from "./components/Route/AdminRoute";
 import Dashboard from "./components/Admin/Dashboard";
 import NewProduct from "./components/Admin/NewProduct";
+import ProductList from "./components/Admin/ProductList";
+import OrderList from "./components/Admin/OrderList";
+import UsersList from "./components/Admin/UserLists";
+import UpdateUser from "./components/Admin/UpdateUser";
+import ProcessOrder from "./components/Admin/ProcessOrder";
 
 function App() {
   const dispatch = useDispatch();
@@ -96,7 +101,12 @@ function App() {
         </Route>
         <Route element={<AdminRoute />}>
           <Route path="/admin/dashboard" element={<Dashboard />}></Route>
+          <Route path="/admin/products" element={<ProductList />}></Route>
           <Route path="/admin/product" element={<NewProduct />}></Route>
+          <Route path="/admin/orders" element={<OrderList />}></Route>
+          <Route path="/admin/order/:id" element={<ProcessOrder />}></Route>
+          <Route path="/admin/users" element={<UsersList />}></Route>
+          <Route path="/admin/user/:id" element={<UpdateUser />}></Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

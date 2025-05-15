@@ -16,6 +16,7 @@ import {
   deleteProductsAdmin,
   getAdminProducts,
 } from "../../reducers/adminProductReducer";
+import Loader from "../layout/Loader/Loader";
 
 const ProductList = () => {
   const navigate = useNavigate();
@@ -23,9 +24,11 @@ const ProductList = () => {
 
   const { error, products } = useSelector((state) => state.adminProducts);
 
-  const { error: deleteError, isDeleted } = useSelector(
-    (state) => state.deleteProductsReducer
-  );
+  const {
+    error: deleteError,
+    loading: deleteLoading,
+    isDeleted,
+  } = useSelector((state) => state.deleteProducts);
 
   const deleteProductHandler = (id) => {
     dispatch(deleteProductsAdmin(id));
@@ -44,12 +47,16 @@ const ProductList = () => {
 
     if (isDeleted) {
       toast.success("Product Deleted Successfully");
-      navigate("/admin/dashboard");
       dispatch(clearisDeleted());
+      navigate("/admin/dashboard");
     }
 
     dispatch(getAdminProducts());
-  }, [dispatch, alert, error, deleteError, isDeleted]);
+  }, [dispatch, error, deleteError, isDeleted]);
+
+  if (deleteLoading) {
+    return <Loader />;
+  }
 
   const columns = [
     { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
@@ -113,7 +120,7 @@ const ProductList = () => {
 
   return (
     <Fragment>
-      <MetaData title={`ALL PRODUCTS - Admin`} />
+      {/* <MetaData title={`ALL PRODUCTS - Admin`} /> */}
 
       <div className="dashboard">
         <SideBar />
@@ -124,8 +131,8 @@ const ProductList = () => {
             rows={rows}
             columns={columns}
             pageSize={10}
-            disableSelectionOnClick
             className="productListTable"
+            disableSelectionOnClick
             autoHeight
           />
         </div>

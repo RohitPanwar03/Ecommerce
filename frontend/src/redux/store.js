@@ -11,8 +11,17 @@ import {
   adminNewProductReducer,
   deleteProductsReducer,
 } from "../reducers/adminProductReducer";
-import adminUserReducer from "../reducers/adminUserReducer";
-import { adminOrdersReducer } from "../reducers/adminOrdersReducer";
+import {
+  adminUserReducer,
+  deleteUserReducer,
+  updateUserRoleReducer,
+  userDetailsReducer,
+} from "../reducers/adminUserReducer";
+import {
+  adminOrdersReducer,
+  getOrderDetailReducer,
+  updateOrderReducer,
+} from "../reducers/adminOrdersReducer";
 
 export const store = configureStore({
   reducer: {
@@ -23,9 +32,20 @@ export const store = configureStore({
     cart: cartReducer,
     Order: orderReducer,
     orderDetails: orderDetailsReducer,
-    adminProducts: adminProductReducer,
+
+    // Admin Users {Update, Get-Details, Delete}
     allUsers: adminUserReducer,
+    deleteUsers: deleteUserReducer,
+    getUserDetail: userDetailsReducer,
+    updateUserRole: updateUserRoleReducer,
+
+    // Admin Orders {Update, Get-Details}
     adminOrders: adminOrdersReducer,
+    getOrderDetail: getOrderDetailReducer,
+    updateOrder: updateOrderReducer,
+
+    // Admin Products {Update, Delete, Create}
+    adminProducts: adminProductReducer,
     newProduct: adminNewProductReducer,
     deleteProducts: deleteProductsReducer,
   },

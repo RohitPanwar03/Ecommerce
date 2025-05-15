@@ -1,17 +1,21 @@
-import React, { Fragment, useEffect } from "react";
-import { DataGrid } from "@material-ui/data-grid";
+import { Fragment, useEffect } from "react";
+import { DataGrid } from "@mui/x-data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useAlert } from "react-alert";
-import { Button } from "@material-ui/core";
-import MetaData from "../layout/MetaData";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { Button } from "@mui/material";
+// import MetaData from "../layout/MetaData";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SideBar from "./Sidebar";
-import { DELETE_USER_RESET } from "../../constants/userConstants";
 import toast from "react-hot-toast";
-import { clearErrors, getAllUsers } from "../../reducers/adminUserReducer";
+import {
+  clearErrors,
+  deleteUser,
+  deleteUserErrors,
+  deleteUserSuccess,
+  getAllUsers,
+} from "../../reducers/adminUserReducer";
 
 const UsersList = () => {
   const navigate = useNavigate();
@@ -19,11 +23,9 @@ const UsersList = () => {
 
   const { error, users } = useSelector((state) => state.allUsers);
 
-  const {
-    error: deleteError,
-    isDeleted,
-    message,
-  } = useSelector((state) => state.profile);
+  const { error: deleteError, isDeleted } = useSelector(
+    (state) => state.deleteUsers
+  );
 
   const deleteUserHandler = (id) => {
     dispatch(deleteUser(id));
@@ -37,18 +39,17 @@ const UsersList = () => {
 
     if (deleteError) {
       toast.error(deleteError);
-      dispatch();
-      // clearErrors()
+      dispatch(deleteUserErrors());
     }
 
     if (isDeleted) {
-      toast.success(message);
+      toast.success("User Deleted Successfully !");
+      dispatch(deleteUserSuccess());
       navigate("/admin/users");
-      dispatch();
     }
 
     dispatch(getAllUsers());
-  }, [dispatch, error, deleteError, isDeleted, message]);
+  }, [dispatch, error, deleteError, isDeleted]);
 
   const columns = [
     { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
@@ -73,9 +74,7 @@ const UsersList = () => {
       minWidth: 150,
       flex: 0.3,
       cellClassName: (params) => {
-        return params.getValue(params.id, "role") === "admin"
-          ? "greenColor"
-          : "redColor";
+        return params.row.role === "admin" ? "greenColor" : "redColor";
       },
     },
 
@@ -116,7 +115,7 @@ const UsersList = () => {
 
   return (
     <Fragment>
-      <MetaData title={`ALL USERS - Admin`} />
+      {/* <MetaData title={`ALL USERS - Admin`} /> */}
 
       <div className="dashboard">
         <SideBar />

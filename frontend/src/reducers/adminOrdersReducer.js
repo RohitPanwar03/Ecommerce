@@ -13,6 +13,35 @@ export const getAllOrders = createAsyncThunk(
   }
 );
 
+export const getOrderDetails = createAsyncThunk(
+  "getOrderDetails",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/api/v1/order/single-order/${id}`);
+      return data.order;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
+export const updateOrderStatus = createAsyncThunk(
+  "updateOrderStatus",
+  async ({ orderId, myForm }, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.put(
+        `/api/v1/order/update-Order/${orderId}`,
+        myForm,
+        config
+      );
+      return data.success;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const adminOrderSlice = createSlice({
   name: "adminOrders",
   initialState: {
@@ -40,6 +69,70 @@ const adminOrderSlice = createSlice({
   },
 });
 
+const getOrderDetailSlice = createSlice({
+  name: "getOrderDetail",
+  initialState: {
+    order: {},
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    clearOrderDetailError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getOrderDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getOrderDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.order = action.payload;
+    });
+    builder.addCase(getOrderDetails.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    });
+  },
+});
+
+const updateOrderSlice = createSlice({
+  name: "updateOrder",
+  initialState: {
+    success: false,
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    updateOrderErrors: (state) => {
+      state.error = null;
+    },
+    updateOrderSuccess: (state) => {
+      state.success = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateOrderStatus.pending, (state, action) => {
+      state.success = false;
+      state.loading = true;
+    });
+    builder.addCase(updateOrderStatus.fulfilled, (state, action) => {
+      state.loading = false;
+      state.success = action.payload;
+    });
+    builder.addCase(updateOrderStatus.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+  },
+});
+
 export const { clearErrors } = adminOrderSlice.actions;
+export const { clearOrderDetailError } = getOrderDetailSlice.actions;
+export const { updateOrderErrors, updateOrderSuccess } =
+  updateOrderSlice.actions;
 
 export const adminOrdersReducer = adminOrderSlice.reducer;
+export const getOrderDetailReducer = getOrderDetailSlice.reducer;
+export const updateOrderReducer = updateOrderSlice.reducer;

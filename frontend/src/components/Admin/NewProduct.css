@@ -5,7 +5,6 @@
   border-left: 1px solid rgba(0, 0, 0, 0.158);
   display: flex;
   flex-direction: column;
-  height: 100vh;
 }
 .newProductContainer h1 {
   color: rgba(0, 0, 0, 0.733);
@@ -18,10 +17,10 @@
   flex-direction: column;
   align-items: center;
   margin: auto;
-  padding: 3vmax;
+  padding: 2vmax;
   justify-content: space-evenly;
-  height: 70%;
-  width: 40vh;
+  height: 80%;
+  width: 70vh;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.267);
 }
@@ -80,7 +79,8 @@
 }
 
 #createProductFormImage > img {
-  width: 3vmax;
+  width: 4vmax;
+  height: 4vmax;
   margin: 0 0.5vmax;
 }
 #createProductBtn {

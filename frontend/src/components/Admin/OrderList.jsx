@@ -7,11 +7,12 @@ import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import SideBar from "./Sidebar";
 import toast from "react-hot-toast";
+import { clearErrors, getAllOrders } from "../../reducers/adminOrdersReducer";
 
 const OrderList = () => {
   const dispatch = useDispatch();
 
-  const { error, orders } = useSelector((state) => state.allOrders);
+  const { error, orders } = useSelector((state) => state.adminOrders);
 
   useEffect(() => {
     if (error) {
@@ -31,9 +32,7 @@ const OrderList = () => {
       minWidth: 150,
       flex: 0.5,
       cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
+        return params.row.status === "Delivered" ? "greenColor" : "redColor";
       },
     },
     {
@@ -83,7 +82,7 @@ const OrderList = () => {
 
   return (
     <Fragment>
-      <MetaData title={`ALL ORDERS - Admin`} />
+      {/* <MetaData title={`ALL ORDERS - Admin`} /> */}
 
       <div className="dashboard">
         <SideBar />
