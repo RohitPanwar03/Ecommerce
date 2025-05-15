@@ -5,7 +5,7 @@ export const getAllUsers = createAsyncThunk(
   "getAllUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/api/v1/user/getAll-users");
+      const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/getAll-users");
       return data.users;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -17,7 +17,7 @@ export const deleteUser = createAsyncThunk(
   "deleteUser",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`/api/v1/user/delete-user/${id}`);
+      const { data } = await axios.delete(`https://ecommerce-7079.onrender.com/api/v1/user/delete-user/${id}`);
       return data.success;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -29,7 +29,7 @@ export const getUserDetails = createAsyncThunk(
   "getUserDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/api/v1/user/getSingle-user/${id}`);
+      const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/user/getSingle-user/${id}`);
       return data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -42,7 +42,7 @@ export const updateUserRole = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.put(
-        `/api/v1/user/update-user-role/${userId}`,
+        `https://ecommerce-7079.onrender.com/api/v1/user/update-user-role/${userId}`,
         myForm,
         config
       );
