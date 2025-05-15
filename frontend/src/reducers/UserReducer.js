@@ -37,7 +37,7 @@ export const loginUser = createAsyncThunk(
 
 export const loadUser = createAsyncThunk(
   "loadUser",
-  async (__, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const res = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/me");
       return res.data.user;
@@ -66,7 +66,7 @@ export const updateUserPassword = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   "logOut",
-  async (__, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/logout", {
         withCredentials: true,
