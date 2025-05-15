@@ -35,8 +35,8 @@ const NewProduct = () => {
     "Footwear",
     "Bottom",
     "Tops",
-    "Clothes,
-    "Game",
+    "Clothes",
+    "Games",
     "Camera",
     "SmartPhones",
   ];
