@@ -52,7 +52,7 @@ export const getProductDetails = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `https://ecommerce-7079.onrender.com/api/v1/products/getSingle-product/${productId}`,
-        { withCredentials: true });
+        { withCredentials: true }
         
       );
       return data.product;
