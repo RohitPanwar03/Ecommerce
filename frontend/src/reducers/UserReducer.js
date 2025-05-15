@@ -7,7 +7,7 @@ export const registerNewUser = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       const res = await axios.post(
-        "/api/v1/user/register",
+        "https://ecommerce-7079.onrender.com/api/v1/user/register",
         { name, email, password, avatar },
         config
       );
@@ -24,7 +24,7 @@ export const loginUser = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const res = await axios.post(
-        "/api/v1/user/login",
+        "https://ecommerce-7079.onrender.com/api/v1/user/login",
         { email, password },
         config
       );
@@ -39,7 +39,7 @@ export const loadUser = createAsyncThunk(
   "loadUser",
   async (__, { rejectWithValue }) => {
     try {
-      const res = await axios.get("/api/v1/user/me");
+      const res = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/me");
       return res.data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -53,7 +53,7 @@ export const updateUserPassword = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const res = await axios.put(
-        "/api/v1/user/update-user-password",
+        "https://ecommerce-7079.onrender.com/api/v1/user/update-user-password",
         FormData,
         config
       );
@@ -68,7 +68,7 @@ export const logOut = createAsyncThunk(
   "logOut",
   async (__, { rejectWithValue }) => {
     try {
-      await axios.get("/api/v1/user/logout", {
+      await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/logout", {
         withCredentials: true,
       });
     } catch (error) {
@@ -83,7 +83,7 @@ export const updateUserProfile = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       const res = await axios.put(
-        "/api/v1/user/update-user-details",
+        "https://ecommerce-7079.onrender.com/api/v1/user/update-user-details",
         {
           name,
           email,
