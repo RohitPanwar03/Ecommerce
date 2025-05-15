@@ -5,11 +5,10 @@ export const registerNewUser = createAsyncThunk(
   "registerNewUser",
   async ({ name, email, password, avatar }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "multipart/form-data" },  withCredentials: true, };
       const res = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/user/register",
         { name, email, password, avatar },
-        config
+        { headers: { "Content-Type": "multipart/form-data" },  withCredentials: true, }
       );
       return res.data.user;
     } catch (error) {
@@ -22,11 +21,10 @@ export const loginUser = createAsyncThunk(
   "loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" },  withCredentials: true, };
       const res = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/user/login",
         { email, password },
-        config
+        { headers: { "Content-Type": "application/json" },  withCredentials: true, }
       );
       return res.data.user;
     } catch (error) {
@@ -37,7 +35,7 @@ export const loginUser = createAsyncThunk(
 
 export const loadUser = createAsyncThunk(
   "loadUser",
-  async (_, { rejectWithValue }) => {
+  async (__, { rejectWithValue }) => {
     try {
       const res = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/me");
       return res.data.user;
@@ -66,7 +64,7 @@ export const updateUserPassword = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   "logOut",
-  async (_, { rejectWithValue }) => {
+  async (__, { rejectWithValue }) => {
     try {
       await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/logout", {
         withCredentials: true,
@@ -81,7 +79,6 @@ export const updateUserProfile = createAsyncThunk(
   "updateUserProfile",
   async ({ name, email, avatar }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "multipart/form-data" },  withCredentials: true, };
       const res = await axios.put(
         "https://ecommerce-7079.onrender.com/api/v1/user/update-user-details",
         {
@@ -89,7 +86,11 @@ export const updateUserProfile = createAsyncThunk(
           email,
           avatar,
         },
-        config
+        { 
+          headers: { 
+            "Content-Type": "multipart/form-data" 
+          },  
+         withCredentials: true, }
       );
       return res.data.success;
     } catch (error) {
