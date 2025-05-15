@@ -5,7 +5,7 @@ export const registerNewUser = createAsyncThunk(
   "registerNewUser",
   async ({ name, email, password, avatar }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      const config = { headers: { "Content-Type": "multipart/form-data" },  withCredentials: true, };
       const res = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/user/register",
         { name, email, password, avatar },
@@ -22,7 +22,7 @@ export const loginUser = createAsyncThunk(
   "loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
+      const config = { headers: { "Content-Type": "application/json" },  withCredentials: true, };
       const res = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/user/login",
         { email, password },
@@ -51,7 +51,7 @@ export const updateUserPassword = createAsyncThunk(
   "updateUserPassword",
   async (FormData, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
+      const config = { headers: { "Content-Type": "application/json" },  withCredentials: true, };
       const res = await axios.put(
         "https://ecommerce-7079.onrender.com/api/v1/user/update-user-password",
         FormData,
@@ -81,7 +81,7 @@ export const updateUserProfile = createAsyncThunk(
   "updateUserProfile",
   async ({ name, email, avatar }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "multipart/form-data" } };
+      const config = { headers: { "Content-Type": "multipart/form-data" },  withCredentials: true, };
       const res = await axios.put(
         "https://ecommerce-7079.onrender.com/api/v1/user/update-user-details",
         {
