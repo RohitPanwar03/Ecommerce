@@ -45,7 +45,8 @@ const UpdateProduct = () => {
     "Footwear",
     "Bottom",
     "Tops",
-    "Attire",
+    "Clothes,
+    "Game",
     "Camera",
     "SmartPhones",
   ];
