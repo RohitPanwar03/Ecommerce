@@ -6,7 +6,7 @@ export const getAdminProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/products/admin/products",                             
-        { withCredentials: true, }
+        { withCredentials: true }
        );
       return data.products;
     } catch (error) {
@@ -36,7 +36,7 @@ export const deleteProductsAdmin = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete(`https://ecommerce-7079.onrender.com/api/v1/products/delete/${id}`,                        
-        { withCredentials: true, });
+        { withCredentials: true });
       return data.success;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -50,7 +50,7 @@ export const getProductDetails = createAsyncThunk(
     try {
       const { data } = await axios.get(
         `https://ecommerce-7079.onrender.com/api/v1/products/getSingle-product/${productId}`,
-        { withCredentials: true, });
+        { withCredentials: true });
         
       );
       return data.product;
