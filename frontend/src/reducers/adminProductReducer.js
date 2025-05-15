@@ -22,7 +22,7 @@ export const newAdminProduct = createAsyncThunk(
       const { data } = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/products/create-product",
         myForm,
-      { headers: { "Content-Type": "application/json" } }
+      { headers: { "Content-Type": "application/json" }, { withCredentials: true } }
       );
       return data.success;
     } catch (error) {
@@ -66,7 +66,7 @@ export const updateProduct = createAsyncThunk(
       const { data } = await axios.put(
         `https://ecommerce-7079.onrender.com/api/v1/products/update/${productId}`,
         myForm,
-      { headers: { "Content-Type": "application/json" } }
+      { headers: { "Content-Type": "application/json" } , { withCredentials: true }}
       );
       return data.success;
     } catch (error) {
