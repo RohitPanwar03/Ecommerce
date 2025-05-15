@@ -5,7 +5,7 @@ export const getProductDetails = createAsyncThunk(
   "getProducts",
   async (id, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`/api/v1/products/getSingle-product/${id}`);
+      const res = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/products/getSingle-product/${id}`);
       return res.data.product;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
