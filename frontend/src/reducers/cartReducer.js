@@ -14,7 +14,7 @@ const cartReducer = createSlice({
     AddToCart: (state, action) => {
       const product = action.payload;
       const productIndex = state.cartItem.findIndex((item) => {
-        return item.id === product.id;
+        return item.product === product.product;
       });
 
       if (productIndex >= 0) {
@@ -29,24 +29,28 @@ const cartReducer = createSlice({
     },
     increaseQuantity: (state, action) => {
       const itemIndex = state.cartItem.findIndex((item) => {
-        return item.id === action.payload;
+        return item.product === action.payload;
       });
 
-      state.cartItem[itemIndex] = {
-        ...state.cartItem[itemIndex],
-        quantity: (state.cartItem[itemIndex].quantity += 1),
-      };
+       if (productIndex >= 0) {
+        state.cartItem[productIndex] = {
+          ...state.cartItem[productIndex],
+          quantity: state.cartItem[productIndex].quantity + 1,
+        };
+      }
 
       localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
     },
     decreaseQuantity: (state, action) => {
       const itemIndex = state.cartItem.findIndex((item) => {
-        return item.id === action.payload;
+        return item.product === action.payload;
       });
-      state.cartItem[itemIndex] = {
-        ...state.cartItem[itemIndex],
-        quantity: state.cartItem[itemIndex].quantity - 1,
-      };
+       if (productIndex >= 0) {
+        state.cartItem[productIndex] = {
+          ...state.cartItem[productIndex],
+          quantity: state.cartItem[productIndex].quantity - 1,
+        };
+      }
 
       localStorage.setItem("cartItem", JSON.stringify(state.cartItem));
     },
