@@ -5,7 +5,9 @@ export const getAdminProducts = createAsyncThunk(
   "getAdminProducts",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/products/admin/products");
+      const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/products/admin/products",                             
+        { withCredentials: true, }
+       );
       return data.products;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -17,11 +19,10 @@ export const newAdminProduct = createAsyncThunk(
   "newAdminProduct",
   async (myForm, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/products/create-product",
         myForm,
-        config
+      { headers: { "Content-Type": "application/json" } }
       );
       return data.success;
     } catch (error) {
@@ -34,7 +35,8 @@ export const deleteProductsAdmin = createAsyncThunk(
   "deleteProductsAdmin",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.delete(`https://ecommerce-7079.onrender.com/api/v1/products/delete/${id}`);
+      const { data } = await axios.delete(`https://ecommerce-7079.onrender.com/api/v1/products/delete/${id}`,                        
+        { withCredentials: true, });
       return data.success;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -47,7 +49,9 @@ export const getProductDetails = createAsyncThunk(
   async (productId, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(
-        `https://ecommerce-7079.onrender.com/api/v1/products/getSingle-product/${productId}`
+        `https://ecommerce-7079.onrender.com/api/v1/products/getSingle-product/${productId}`,
+        { withCredentials: true, });
+        
       );
       return data.product;
     } catch (error) {
@@ -59,11 +63,10 @@ export const updateProduct = createAsyncThunk(
   "updateProduct",
   async ({ productId, myForm }, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.put(
         `https://ecommerce-7079.onrender.com/api/v1/products/update/${productId}`,
         myForm,
-        config
+      { headers: { "Content-Type": "application/json" } }
       );
       return data.success;
     } catch (error) {
