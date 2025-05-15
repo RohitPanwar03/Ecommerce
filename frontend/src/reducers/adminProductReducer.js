@@ -22,9 +22,10 @@ export const newAdminProduct = createAsyncThunk(
       const { data } = await axios.post(
         "https://ecommerce-7079.onrender.com/api/v1/products/create-product",
         myForm,
-      { 
-        headers: { "Content-Type": "application/json" }, 
-        withCredentials: true  }
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        }
       );
       return data.success;
     } catch (error) {
