@@ -37,7 +37,7 @@ export const updateOrderStatus = createAsyncThunk(
       const { data } = await axios.put(
         `https://ecommerce-7079.onrender.com/api/v1/order/update-Order/${orderId}`,
         myForm,
-       { headers: { "Content-Type": "application/json" } }
+       { headers: { "Content-Type": "application/json" } , { withCredentials: true }}
     
       );
       return data.success;
