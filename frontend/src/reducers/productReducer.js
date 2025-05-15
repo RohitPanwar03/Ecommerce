@@ -14,7 +14,7 @@ export const getProducts = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
+      let link = `https://ecommerce-7079.onrender.com/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
 
       if (category) {
         link += `&category=${category}`;
