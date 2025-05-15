@@ -5,7 +5,7 @@ export const getAllOrders = createAsyncThunk(
   "getAllOrders",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/api/v1/order/getAll-Orders");
+      const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/order/getAll-Orders");
       return data.orders;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -17,7 +17,7 @@ export const getOrderDetails = createAsyncThunk(
   "getOrderDetails",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/api/v1/order/single-order/${id}`);
+      const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/order/single-order/${id}`);
       return data.order;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -31,7 +31,7 @@ export const updateOrderStatus = createAsyncThunk(
     try {
       const config = { headers: { "Content-Type": "application/json" } };
       const { data } = await axios.put(
-        `/api/v1/order/update-Order/${orderId}`,
+        `https://ecommerce-7079.onrender.com/api/v1/order/update-Order/${orderId}`,
         myForm,
         config
       );
