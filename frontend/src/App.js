@@ -50,7 +50,7 @@ function App() {
   );
 
   async function getStripeApiKey() {
-    const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/payment/stripekey");
+    const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/payment/stripekey", { withCredentials: true });
     setStripeApikey(data.stripeApiKey);
   }
   useEffect(() => {
