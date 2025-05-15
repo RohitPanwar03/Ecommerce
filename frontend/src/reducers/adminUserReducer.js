@@ -7,7 +7,7 @@ export const getAllUsers = createAsyncThunk(
     try {
       const { data } = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/getAll-users",
                                       
-        {withCredentials: true, });
+        {withCredentials: true });
       return data.users;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -21,7 +21,7 @@ export const deleteUser = createAsyncThunk(
     try {
       const { data } = await axios.delete(`https://ecommerce-7079.onrender.com/api/v1/user/delete-user/${id}`,
                                          
-        { withCredentials: true, });
+        { withCredentials: true });
       return data.success;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -35,7 +35,7 @@ export const getUserDetails = createAsyncThunk(
     try {
       const { data } = await axios.get(`https://ecommerce-7079.onrender.com/api/v1/user/getSingle-user/${id}`,
                                       
-        {withCredentials: true, });
+        {withCredentials: true });
       return data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
