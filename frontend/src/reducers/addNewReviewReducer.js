@@ -11,7 +11,7 @@ export const addNewReview = createAsyncThunk(
         productId,
       }
                                   
-        { headers: { "Content-Type": "application/json" },  withCredentials: true, }
+        { headers: { "Content-Type": "application/json" },  withCredentials: true }
      );
       return res.data;
     } catch (error) {
