@@ -23,7 +23,7 @@ export const newAdminProduct = createAsyncThunk(
         "https://ecommerce-7079.onrender.com/api/v1/products/create-product",
         myForm,
         {
-          headers: { "Content-Type": "application/json" },
+          headers: {  "Content-Type": "multipart/form-data" },
           withCredentials: true
         }
       );
