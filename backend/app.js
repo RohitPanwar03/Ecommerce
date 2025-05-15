@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(cors({
-    origin: "https://ecommerce-seven-psi-76.vercel.app", 
+    origin: "https://ecommerce-sigma-amber.vercel.app", 
     credentials: true,
   }));
 app.use(fileUpload());
