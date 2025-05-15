@@ -37,7 +37,7 @@ export const loadUser = createAsyncThunk(
   "loadUser",
   async (__, { rejectWithValue }) => {
     try {
-      const res = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/me");
+      const res = await axios.get("https://ecommerce-7079.onrender.com/api/v1/user/me",{ withCredentials: true });
       return res.data.user;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || error.message);
