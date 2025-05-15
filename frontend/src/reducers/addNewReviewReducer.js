@@ -5,7 +5,7 @@ export const addNewReview = createAsyncThunk(
   "addNewReview",
   async ({ rating, comment, productId }, { rejectWithValue }) => {
     try {
-      const res = await axios.put(`/api/v1/products/review`, {
+      const res = await axios.put(`https://ecommerce-7079.onrender.com/api/v1/products/review`, {
         rating,
         comment,
         productId,
