@@ -49,11 +49,11 @@ export const updateUserPassword = createAsyncThunk(
   "updateUserPassword",
   async (FormData, { rejectWithValue }) => {
     try {
-      const config = { headers: { "Content-Type": "application/json" },  withCredentials: true, };
       const res = await axios.put(
         "https://ecommerce-7079.onrender.com/api/v1/user/update-user-password",
         FormData,
-        config
+      { headers: { "Content-Type": "application/json" },  withCredentials: true }
+        
       );
       return res.data.success;
     } catch (error) {
